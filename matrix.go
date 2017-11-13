@@ -2,13 +2,23 @@
 
 
 /*
-Matrix file format
+
+** Running the program **
+	Given two files matrix1.txt and matrix2.txt that contain the matrices you wish to multiply,
+	you can run the program like so:
+		`go run matrix.go matrix1.txt matrix2.txt`
+	
+	This will multiply the two matrices together and outputs to stdout the dot product as a 2D array of integers.
+
+
+** Matrix file format **
 	Each row contain numbers separated by a single whitespace.
 	Each newline constitutes a new row.
 
 	For example a matrix with two rows and three columns would look like this:
 	0 1 2
 	3 4 5
+	
 */
 
 package main
@@ -61,6 +71,10 @@ func readMatrix(path string) ([][]int, error) {
 }
 
 func main() {
+	if len(os.Args) != 3 {
+		fmt.Println("Requires two matrices as input.")
+		return
+	}
 	matrix1, err := readMatrix(os.Args[1])
 	if err != nil {
 		fmt.Println("Error opening file.")
