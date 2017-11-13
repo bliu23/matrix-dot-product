@@ -40,7 +40,17 @@ func main() {
 	resultMatrix := make([][]int, numRows1)
     for i := range resultMatrix {
         resultMatrix[i] = make([]int, numCols2)
-    }
+	}
+	
+	for resultRow := 0; resultRow < numRows1; resultRow++ {
+		for resultCol := 0; resultCol < numCols2; resultCol++ {
+			entryTotal := 0
+			for i := 0; i < numCols1; i++ {
+				entryTotal += (matrix1[resultRow][i] * matrix2[i][resultCol])
+			}
+			resultMatrix[resultRow][resultCol] = entryTotal
+		}
+	}
 
 	fmt.Println(resultMatrix)
 
