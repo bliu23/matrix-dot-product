@@ -1,31 +1,52 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"bufio"
+	"log"
+	"os"
+	"strconv"
+	"strings"
+)
+
+func sliceAtoi(stringNum []string) ([]int, error) {
+	intNum := make([]int, 0, len(stringNum))
+    for _, a := range stringNum {
+        i, err := strconv.Atoi(a)
+        if err != nil {
+            return intNum, err
+        }
+        intNum = append(intNum, i)
+    }
+    return intNum, nil
+}
+
+func readMatrix(path string) [][]int {
+	resultMatrix := make([][]int, 0)
+	
+	file, err := os.Open(path)
+	if err != nil {
+        log.Fatal(err)
+    }
+	defer file.Close()
+	
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		nums := strings.Fields(line)
+		intArray, err := sliceAtoi(nums)
+		if err != nil {
+			fmt.Println(err)
+		}
+		resultMatrix = append(resultMatrix, intArray)
+	}
+
+	return resultMatrix
+}
 
 func main() {
-	fmt.Println("Hello, World!")
-	// [numRows][numCols]
-	// var matrix1 = [3][4]int {
-	// 	{0, 1, 2, 3},
-	// 	{4, 5, 6, 7},
-	// 	{8, 9, 10, 11},
-	// }
-
-	// var matrix2 = [4][3]int {
-	// 	{0, 1, 2},
-	// 	{3, 4, 5},
-	// 	{6, 7, 8},
-	// 	{9, 10, 11},
-	// }
-
-	var matrix1 = [1][3]int {
-		{3, 4, 2},
-	}
-	var matrix2 = [3][4]int {
-		{13, 9, 7, 15},
-		{8, 7, 4, 6},
-		{6, 4, 0, 3},
-	}
+	var matrix1 = readMatrix("matrix1.txt")
+	var matrix2 = readMatrix("matrix2.txt")
 
 	numRows1 := len(matrix1)
 	numCols1 := len(matrix1[0])
